@@ -85,24 +85,25 @@
       zlib1g \
       ca-certificates \
       openssl \
+      curl \
+      jq \
+      fuse3 \
+      rclone \
+      python3-pip \
       && rm -rf /var/lib/apt/lists/*
+
+  RUN pip3 install certbot-dns-bunny --break-system-packages
 
   COPY --from=builder /staging/bin/moqrelayserver /usr/local/bin/
   COPY --from=builder /staging/lib/ /usr/local/lib/
 
-  # Generate default self-signed certs
-  RUN mkdir -p /certs && \
-      openssl req -newkey rsa:2048 -nodes -keyout /certs/certificate.key \
-      -x509 -out /certs/certificate.pem -subj '/CN=Test Certificate' \
-      -addext "subjectAltName = DNS:localhost"
-
   ENV LD_LIBRARY_PATH=/usr/local/lib
   ENV MOQ_LOG_LEVEL=DBG
   ENV MOQ_PORT=4433
-  ENV CERT_FILE=/certs/certificate.pem
-  ENV KEY_FILE=/certs/certificate.key
   ENV MOQ_ENDPOINT=/moq
 
   EXPOSE ${MOQ_PORT}/udp
 
-  CMD ["sh", "-c", "moqrelayserver -port ${MOQ_PORT} -cert ${CERT_FILE} -key ${KEY_FILE} -endpoint \"${MOQ_ENDPOINT}\" --logging ${MOQ_LOG_LEVEL}"]
+  COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+  RUN chmod +x /usr/local/bin/entrypoint.sh
+  ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
