@@ -33,7 +33,7 @@
   #
 
   # Stage 1: Build
-  FROM ubuntu:latest AS builder
+  FROM ubuntu:22.04 AS builder
 
   # Install python3 and sudo (getdeps.py install-system-deps requires sudo)
   RUN apt-get update && apt-get install -y \
@@ -62,9 +62,10 @@
   # First install system dependencies to reduce compilation
   RUN ./build/fbcode_builder/getdeps.py install-system-deps --recursive moxygen
 
-  RUN ./build/fbcode_builder/getdeps.py build --allow-system-packages --verbose moxygen 2>&1 || \
+  RUN ./build/fbcode_builder/getdeps.py build --allow-system-packages --verbose --num-jobs 2 moxygen || \
       (echo "=== Build failed, showing logs ===" && \
-       find /tmp -name "*.log" -type f -exec echo "=== {} ===" \; -exec cat {} \; 2>/dev/null; \
+       find /tmp/fbcode_builder_getdeps-* -name "*.log" -type f 2>/dev/null | \
+           xargs -I{} sh -c 'echo "=== {} ===" && cat {}'; \
        exit 1)
 
   # Stage the binary and getdeps-built shared libs for the runtime image
