@@ -118,5 +118,5 @@ exec moqrelayserver \
     -port "${MOQ_PORT:-4433}" \
     -cert "${CERT:-/certs/certificate.pem}" \
     -key "${KEY:-/certs/certificate.key}" \
-    -endpoint "${MOQ_ENDPOINT:-/moq}" \
+    -endpoint "${MOQ_ENDPOINT:-/}" \
     --logging "${MOQ_LOG_LEVEL:-DBG}"
