@@ -14,3 +14,4 @@ services:
       - MOQ_PORT=${MOQ_PORT:-4433}
       - CERT_FILE=${CERT_FILE:-/certs/certificate.pem}
       - KEY_FILE=${KEY_FILE:-/certs/certificate.key}
+      - MOQ_ENDPOINT: "/"
