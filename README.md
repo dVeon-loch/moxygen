@@ -183,6 +183,13 @@ docker compose -f docker/docker-compose.yml up --build
 | `MOQ_ENDPOINT` | _(empty)_ | WebTransport endpoint path |
 | `MOQ_LOG_LEVEL` | `DBG` | Log level |
 
+### S3-compatible storage setup
+
+1. Create a bucket in your S3-compatible storage provider (e.g. a Cloudflare R2 bucket).
+2. Create an API token with **Object Read & Write** permission scoped to that bucket. Copy the access key ID and secret — the secret is only shown once.
+3. On first deploy, either upload an existing `fullchain.pem` / `privkey.pem` under your chosen `S3_PREFIX`, or leave the bucket empty and let certbot populate it on first startup.
+4. Set all required environment variables in your container config. Mark `S3_ACCESS_KEY_ID` and `S3_SECRET_ACCESS_KEY` as secrets.
+
 ## License
 
 moxygen is released under the [MIT License](https://github.com/facebookexperimental/moqxygen/blob/main/LICENSE).

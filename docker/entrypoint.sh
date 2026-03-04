@@ -3,7 +3,7 @@ set -e
 
 # Defaults (can be overridden by environment)
 : "${MOQ_PORT:=443}"
-: "${MOQ_ENDPOINT:=}"
+: "${MOQ_ENDPOINT:='/'}"
 : "${MOQ_LOG_LEVEL:=DBG}"
 
 export MOQ_PORT MOQ_ENDPOINT MOQ_LOG_LEVEL
