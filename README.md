@@ -179,8 +179,8 @@ docker compose -f docker/docker-compose.yml up --build
 | `S3_CERT_FILE` | `fullchain.pem` | Cert filename in the bucket |
 | `S3_KEY_FILE` | `privkey.pem` | Key filename in the bucket |
 | `CERTBOT_STAGING` | — | Use LE staging if set |
-| `MOQ_PORT` | `443` | UDP port |
-| `MOQ_ENDPOINT` | _(empty)_ | WebTransport endpoint path |
+| `MOQ_PORT` | `4443` | UDP port |
+| `MOQ_ENDPOINT` | `/` | WebTransport endpoint path |
 | `MOQ_LOG_LEVEL` | `DBG` | Log level |
 
 ### S3-compatible storage setup
